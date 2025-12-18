@@ -205,6 +205,13 @@ The default manifest includes:
 - **filesystem** - Read, write, and manage local files
 - **fetch** - Fetch URLs and retrieve web content
 
+## Acknowledgments
+
+- Reddit user [u/mrgoonvn](https://reddit.com/user/mrgoonvn) for the inspiration regarding MCP context bloat that led to this project
+- [Anthropic](https://anthropic.com) for the [Model Context Protocol SDK](https://github.com/modelcontextprotocol/typescript-sdk)
+- The MCP community for the official server implementations (GitHub, Filesystem, Fetch, Sequential Thinking)
+- Built with [Claude Code](https://claude.ai/code)
+
 ## License
 
 This MCP server is licensed under the GPL-3.0 License. This means you are free to use, modify, and distribute the software, subject to the terms and conditions of the GPL-3.0 License. For more details, please see the LICENSE file in the project repository.
