@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "coordinator": {
+      "command": "cmd",
+      "args": ["/c", "node", "C:\\dev\\mcp_coordinator\\build\\index.js"],
+      "env": {
+        "GITHUB_TOKEN": ""
+      }
+    }
+  }
+}

@@ -1,0 +1,4 @@
+.env.local
+MCP_COORDINATOR_GUIDE.md
+node_modules/
+build/

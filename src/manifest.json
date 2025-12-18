@@ -1,0 +1,24 @@
+{
+  "servers": {
+    "github": {
+      "description": "GitHub operations: repos, issues, PRs, branches, commits",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
+      }
+    },
+    "filesystem": {
+      "description": "Read, write, and manage files on the local filesystem",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "C:/"],
+      "env": {}
+    },
+    "fetch": {
+      "description": "Fetch URLs and retrieve web content",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-fetch"],
+      "env": {}
+    }
+  }
+}
