@@ -59,6 +59,8 @@ The MCP Coordinator is designed for:
 
 ## Configuration
 
+The coordinator itself requires **no API keys or tokens**. You only need to provide tokens for specific MCP servers in the manifest that require them (like GitHub MCP).
+
 ### Usage with Claude Desktop
 
 Add this to your `claude_desktop_config.json`:
@@ -68,10 +70,7 @@ Add this to your `claude_desktop_config.json`:
   "mcpServers": {
     "coordinator": {
       "command": "node",
-      "args": ["C:\\path\\to\\mcp_coordinator\\build\\index.js"],
-      "env": {
-        "GITHUB_TOKEN": "your_github_token_here"
-      }
+      "args": ["C:\\path\\to\\mcp_coordinator\\build\\index.js"]
     }
   }
 }
@@ -88,10 +87,7 @@ Create a `.mcp.json` file in your project root:
   "mcpServers": {
     "coordinator": {
       "command": "cmd",
-      "args": ["/c", "node", "C:\\path\\to\\mcp_coordinator\\build\\index.js"],
-      "env": {
-        "GITHUB_TOKEN": "your_github_token_here"
-      }
+      "args": ["/c", "node", "C:\\path\\to\\mcp_coordinator\\build\\index.js"]
     }
   }
 }
@@ -106,7 +102,22 @@ Create `~/.claude/.mcp.json`:
   "mcpServers": {
     "coordinator": {
       "command": "cmd",
-      "args": ["/c", "node", "C:\\path\\to\\mcp_coordinator\\build\\index.js"],
+      "args": ["/c", "node", "C:\\path\\to\\mcp_coordinator\\build\\index.js"]
+    }
+  }
+}
+```
+
+### Passing Tokens for Specific MCPs
+
+If you use MCP servers that require authentication (like GitHub), pass the tokens as environment variables:
+
+```json
+{
+  "mcpServers": {
+    "coordinator": {
+      "command": "node",
+      "args": ["C:\\path\\to\\mcp_coordinator\\build\\index.js"],
       "env": {
         "GITHUB_TOKEN": "your_github_token_here"
       }
@@ -115,9 +126,38 @@ Create `~/.claude/.mcp.json`:
 }
 ```
 
+The coordinator passes these to child MCPs via the `${VAR_NAME}` syntax in the manifest.
+
 ## Adding MCP Servers
 
-Edit `src/manifest.json` (and rebuild) or directly edit `build/manifest.json`:
+Edit `src/manifest.json` (and rebuild) or directly edit `build/manifest.json`.
+
+### MCPs That Need No Authentication
+
+Many MCPs work without any tokens:
+
+```json
+{
+  "servers": {
+    "sequential-thinking": {
+      "description": "Step-by-step thinking and problem decomposition",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"],
+      "env": {}
+    },
+    "filesystem": {
+      "description": "Read, write, and manage local files",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "C:/"],
+      "env": {}
+    }
+  }
+}
+```
+
+### MCPs That Require Authentication
+
+Some MCPs need API tokens to access external services:
 
 ```json
 {
@@ -129,20 +169,12 @@ Edit `src/manifest.json` (and rebuild) or directly edit `build/manifest.json`:
       "env": {
         "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
       }
-    },
-    "your-new-server": {
-      "description": "Description of what this server does",
-      "command": "npx",
-      "args": ["-y", "@some/mcp-package"],
-      "env": {
-        "API_KEY": "${YOUR_API_KEY}"
-      }
     }
   }
 }
 ```
 
-Environment variables use `${VAR_NAME}` syntax and are resolved from the coordinator's environment at runtime.
+Environment variables use `${VAR_NAME}` syntax and are resolved from the coordinator's environment at runtime. Only pass the tokens you actually need for the MCPs you're using.
 
 ## Building
 
